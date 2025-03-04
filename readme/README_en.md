@@ -1,5 +1,9 @@
-# MTranServer 
-> Mini Translation Server Beta Version
+# MTranServer (Simplified)
+
+> Mini Translation Server Beta Version with
+>
+> 1. Remove dummy files (the `core` folder is not open sourced yet)
+> 2. Add download scripts
 
 <img src="./images/logo.jpg" width="auto" height="128" align="right">
 
@@ -16,13 +20,13 @@ For high-quality translation, consider using online large language model APIs.
 
 ## Comparison with Similar Projects (CPU, English to Chinese)
 
-| Project Name | Memory Usage | Concurrency | Translation Quality | Speed | Additional Info |
-|--------------|--------------|-------------|---------------------|-------|-----------------|
-| [facebook/nllb](https://github.com/facebookresearch/fairseq/tree/nllb) | Very High | Poor | Average | Slow | Android's [RTranslator](https://github.com/niedev/RTranslator) has optimizations but still has high resource usage and slower speed |
-| [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate) | Very High | Average | Average | Medium | Mid-range CPU: 3 sentences/s, high-end CPU: 15-20 sentences/s. [Details](https://community.libretranslate.com/t/performance-benchmark-data/486) |
-| [OPUS-MT](https://github.com/OpenNMT/CTranslate2#benchmarks) | High | Average | Below Average | Fast | [Performance Benchmarks](https://github.com/OpenNMT/CTranslate2#benchmarks) |
-| Any LLM | Extremely High | Dynamic | Good | Dynamic Very Slow | 32B or more parameter models perform well, but require high hardware requirements |
-| MTranServer (This Project) | Low | High | Average | Ultra Fast | 50ms average response time per request |
+| Project Name                                                           | Memory Usage   | Concurrency | Translation Quality | Speed             | Additional Info                                                                                                                                 |
+| ---------------------------------------------------------------------- | -------------- | ----------- | ------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| [facebook/nllb](https://github.com/facebookresearch/fairseq/tree/nllb) | Very High      | Poor        | Average             | Slow              | Android's [RTranslator](https://github.com/niedev/RTranslator) has optimizations but still has high resource usage and slower speed             |
+| [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate)     | Very High      | Average     | Average             | Medium            | Mid-range CPU: 3 sentences/s, high-end CPU: 15-20 sentences/s. [Details](https://community.libretranslate.com/t/performance-benchmark-data/486) |
+| [OPUS-MT](https://github.com/OpenNMT/CTranslate2#benchmarks)           | High           | Average     | Below Average       | Fast              | [Performance Benchmarks](https://github.com/OpenNMT/CTranslate2#benchmarks)                                                                     |
+| Any LLM                                                                | Extremely High | Dynamic     | Good                | Dynamic Very Slow | 32B or more parameter models perform well, but require high hardware requirements                                                               |
+| MTranServer (This Project)                                             | Low            | High        | Average             | Ultra Fast        | 50ms average response time per request                                                                                                          |
 
 > The small-parameter quantized versions of the existing large Transformer-based large languagemodels are not considered because actual research and testing have shown that the translation quality is highly unstable, prone to disordered translations, severe hallucinations, and slow speeds. We will test the Diffusion architecture-based language models once they are released.
 >
@@ -181,12 +185,12 @@ Replace `your_token` in the following tables with your `CORE_API_TOKEN` value fr
 >
 > Configure the plugin's custom interface address according to the table below. Note: The first request will be slower because it needs to load the model. Subsequent requests will be faster.
 
-| Name | URL | Plugin Setting |
-| --- | --- | --- |
-| Immersive Translation (No Password) | `http://localhost:8989/imme` | `Custom API Settings` - `API URL` |
+| Name                                  | URL                                           | Plugin Setting                                                    |
+| ------------------------------------- | --------------------------------------------- | ----------------------------------------------------------------- |
+| Immersive Translation (No Password)   | `http://localhost:8989/imme`                  | `Custom API Settings` - `API URL`                                 |
 | Immersive Translation (With Password) | `http://localhost:8989/imme?token=your_token` | Same as above, change `your_token` to your `CORE_API_TOKEN` value |
-| Kiss Translator (No Password) | `http://localhost:8989/kiss` | `Interface Settings` - `Custom` - `URL` |
-| Kiss Translator (With Password) | `http://localhost:8989/kiss` | Same as above, fill `KEY` with `your_token` |
+| Kiss Translator (No Password)         | `http://localhost:8989/kiss`                  | `Interface Settings` - `Custom` - `URL`                           |
+| Kiss Translator (With Password)       | `http://localhost:8989/kiss`                  | Same as above, fill `KEY` with `your_token`                       |
 
 **Regular users can start using the service after setting up the plugin interface address according to the table above. Skip to "How to Update" below.**
 
@@ -194,15 +198,15 @@ Replace `your_token` in the following tables with your `CORE_API_TOKEN` value fr
 
 > Base URL: `http://localhost:8989`
 
-| Name | URL | Request Format | Response Format | Auth Header |
-| --- | --- | --- | --- | --- |
-| Service Version | `/version` | None | None | None |
-| Language Pair List | `/models` | None | None | Authorization: your_token |
-| Standard Translation | `/translate` | `{"from": "en", "to": "zh", "text": "Hello, world!"}` | `{"result": "你好，世界！"}` | Authorization: your_token |
-| Batch Translation | `/translate/batch` | `{"from": "en", "to": "zh", "texts": ["Hello, world!", "Hello, world!"]}` | `{"results": ["你好，世界！", "你好，世界！"]}` | Authorization: your_token |
-| Health Check | `/health` | None | `{"status": "ok"}` | None |
-| Heartbeat Check | `/__heartbeat__` | None | `Ready` | None |
-| Load Balancer Heartbeat | `/__lbheartbeat__` | None | `Ready` | None |
+| Name                    | URL                | Request Format                                                            | Response Format                                 | Auth Header               |
+| ----------------------- | ------------------ | ------------------------------------------------------------------------- | ----------------------------------------------- | ------------------------- |
+| Service Version         | `/version`         | None                                                                      | None                                            | None                      |
+| Language Pair List      | `/models`          | None                                                                      | None                                            | Authorization: your_token |
+| Standard Translation    | `/translate`       | `{"from": "en", "to": "zh", "text": "Hello, world!"}`                     | `{"result": "你好，世界！"}`                    | Authorization: your_token |
+| Batch Translation       | `/translate/batch` | `{"from": "en", "to": "zh", "texts": ["Hello, world!", "Hello, world!"]}` | `{"results": ["你好，世界！", "你好，世界！"]}` | Authorization: your_token |
+| Health Check            | `/health`          | None                                                                      | `{"status": "ok"}`                              | None                      |
+| Heartbeat Check         | `/__heartbeat__`   | None                                                                      | `Ready`                                         | None                      |
+| Load Balancer Heartbeat | `/__lbheartbeat__` | None                                                                      | `Ready`                                         | None                      |
 
 ### How to Update
 
@@ -229,7 +233,7 @@ Server API source code repository: [MTranServerCore](https://github.com/xxnuo/MT
 
 [Buy me a coffee ☕️](https://www.creem.io/payment/prod_3QOnrHlGyrtTaKHsOw9Vs1)
 
-[Mainland China 💗 Like](./DONATE.md)
+[Mainland China 💗 Like](DONATE.md)
 
 ---
 
