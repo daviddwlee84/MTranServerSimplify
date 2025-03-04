@@ -33,6 +33,8 @@ def download_and_extract(
     Args:
         asset (str): The key of the asset to download. Options are: enzh, enja, zhen, jaen.
         output_dir (str): The directory where the zip contents should be extracted.
+
+    https://github.com/mozilla/firefox-translations-models/blob/main/scripts/pull_models.sh
     """
     # Base URL for the GitHub release assets
     base_url = "https://github.com/xxnuo/MTranServer/releases/download/models"
